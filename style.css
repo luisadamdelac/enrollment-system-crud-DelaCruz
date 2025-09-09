@@ -1,0 +1,122 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #f9f9f9;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+nav {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+nav button {
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+nav button:hover, nav button.active {
+    background: #0056b3;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #aaa;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+button.action-btn {
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: none;
+    background: #28a745;
+    color: white;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+button.action-btn.delete {
+    background: #dc3545;
+}
+
+form {
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+form input[type="text"], form select, form input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+form button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav button {
+        width: 100%;
+        max-width: 300px;
+        margin: 5px 0;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 5px;
+    }
+
+    form {
+        padding: 10px;
+    }
+
+    form input[type="text"], form select, form input[type="number"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    form button {
+        width: 100%;
+    }
+}
