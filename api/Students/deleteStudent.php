@@ -11,7 +11,6 @@ if ($id <= 0) {
 }
 
 try {
-    // Check if student is enrolled in any subject
     $check = $pdo->prepare("SELECT COUNT(*) FROM student_load WHERE stud_id = ?");
     $check->execute([$id]);
     if ($check->fetchColumn() > 0) {
