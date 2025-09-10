@@ -11,7 +11,6 @@ if ($id <= 0) {
 }
 
 try {
-    // Check if subjects exist in this semester
     $check = $pdo->prepare("SELECT COUNT(*) FROM subject_tbl WHERE sem_id = ?");
     $check->execute([$id]);
     if ($check->fetchColumn() > 0) {
