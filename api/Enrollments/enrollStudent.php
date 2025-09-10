@@ -12,7 +12,6 @@ if ($stud_id <= 0 || $subject_id <= 0) {
 }
 
 try {
-    // Check if student exists
     $studentCheck = $pdo->prepare("SELECT COUNT(*) FROM student_tbl WHERE stud_id = ?");
     $studentCheck->execute([$stud_id]);
     if ($studentCheck->fetchColumn() == 0) {
@@ -20,7 +19,6 @@ try {
         exit;
     }
 
-    // Check if subject exists
     $subjectCheck = $pdo->prepare("SELECT COUNT(*) FROM subject_tbl WHERE subject_id = ?");
     $subjectCheck->execute([$subject_id]);
     if ($subjectCheck->fetchColumn() == 0) {
@@ -28,7 +26,6 @@ try {
         exit;
     }
 
-    // Check if already enrolled
     $check = $pdo->prepare("SELECT COUNT(*) FROM student_load WHERE stud_id = ? AND subject_id = ?");
     $check->execute([$stud_id, $subject_id]);
     if ($check->fetchColumn() > 0) {
@@ -36,7 +33,6 @@ try {
         exit;
     }
 
-    // Ensure load_id is AUTO_INCREMENT
     $maxIdStmt = $pdo->query("SELECT MAX(load_id) FROM student_load");
     $maxId = $maxIdStmt->fetchColumn();
     $nextAutoIncrement = $maxId ? $maxId + 1 : 1;
