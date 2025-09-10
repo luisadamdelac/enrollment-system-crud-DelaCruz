@@ -13,7 +13,6 @@ if ($load_id <= 0 || $new_stud_id <= 0 || $new_subject_id <= 0) {
 }
 
 try {
-    // Check if the enrollment exists
     $stmt = $pdo->prepare("SELECT stud_id, subject_id FROM student_load WHERE load_id = ?");
     $stmt->execute([$load_id]);
     $current = $stmt->fetch();
@@ -22,8 +21,7 @@ try {
         echo json_encode(['success' => false, 'message' => 'Enrollment not found']);
         exit;
     }
-
-    // Check if the new combination already exists (excluding current record)
+   
     $check = $pdo->prepare("SELECT COUNT(*) FROM student_load WHERE stud_id = ? AND subject_id = ? AND load_id != ?");
     $check->execute([$new_stud_id, $new_subject_id, $load_id]);
     if ($check->fetchColumn() > 0) {
