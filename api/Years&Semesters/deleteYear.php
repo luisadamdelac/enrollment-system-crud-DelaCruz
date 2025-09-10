@@ -11,7 +11,6 @@ if ($id <= 0) {
 }
 
 try {
-    // Check if any semesters linked to this year
     $check = $pdo->prepare("SELECT COUNT(*) FROM semester_tbl WHERE year_id = ?");
     $check->execute([$id]);
     if ($check->fetchColumn() > 0) {
