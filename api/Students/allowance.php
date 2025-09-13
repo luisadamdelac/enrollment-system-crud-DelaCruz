@@ -5,7 +5,7 @@ require '../db.php';
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
-    // Get allowance for a student
+    
     $stud_id = intval($_GET['stud_id'] ?? 0);
     if ($stud_id <= 0) {
         echo json_encode(['success' => false, 'message' => 'Student ID is required']);
@@ -25,7 +25,7 @@ if ($method === 'GET') {
         echo json_encode(['success' => false, 'message' => 'Failed to get allowance']);
     }
 } elseif ($method === 'POST') {
-    // Update allowance for a student
+    
     $data = json_decode(file_get_contents('php://input'), true);
     $stud_id = intval($data['stud_id'] ?? 0);
     $allowance = floatval($data['allowance'] ?? 0);
