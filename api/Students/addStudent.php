@@ -4,12 +4,14 @@ require '../db.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 $stud_id = intval($data['stud_id'] ?? 0);
-$name = trim($data['name'] ?? '');
+$first_name = trim($data['first_name'] ?? '');
+$middle_name = trim($data['middle_name'] ?? '');
+$last_name = trim($data['last_name'] ?? '');
 $program_id = intval($data['program_id'] ?? 0);
 $allowance = floatval($data['allowance'] ?? 0);
 
-if ($stud_id <= 0 || $name === '' || $program_id <= 0) {
-    echo json_encode(['success' => false, 'message' => 'Student ID, Name and Program are required']);
+if ($stud_id <= 0 || $first_name === '' || $last_name === '' || $program_id <= 0) {
+    echo json_encode(['success' => false, 'message' => 'Student ID, First Name, Last Name and Program are required']);
     exit;
 }
 
@@ -21,8 +23,8 @@ if ($check->fetchColumn() > 0) {
 }
 
 try {
-    $stmt = $pdo->prepare("INSERT INTO student_tbl (stud_id, name, program_id, allowance) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$stud_id, $name, $program_id, $allowance]);
+    $stmt = $pdo->prepare("INSERT INTO student_tbl (stud_id, first_name , middle_name, last_name, program_id, allowance) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$stud_id, $first_name,$middle_name, $last_name, $program_id, $allowance]);
     echo json_encode(['success' => true, 'message' => 'Student added successfully']);
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => 'Failed to add student']);
