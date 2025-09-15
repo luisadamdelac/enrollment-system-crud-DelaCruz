@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 09, 2025 at 05:40 PM
+-- Generation Time: Sep 15, 2025 at 04:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -106,10 +106,11 @@ CREATE TABLE `student_load` (
 --
 
 INSERT INTO `student_load` (`load_id`, `stud_id`, `subject_id`) VALUES
-(0, 18, 1),
 (1, 1, 1),
 (3, 2, 3),
-(7, 43, 3);
+(7, 43, 3),
+(8, 18, 1),
+(10, 15, 1);
 
 -- --------------------------------------------------------
 
@@ -119,7 +120,9 @@ INSERT INTO `student_load` (`load_id`, `stud_id`, `subject_id`) VALUES
 
 CREATE TABLE `student_tbl` (
   `stud_id` int(11) NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
+  `first_name` varchar(100) DEFAULT NULL,
+  `middle_name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
   `program_id` int(11) DEFAULT NULL,
   `allowance` float(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -128,36 +131,38 @@ CREATE TABLE `student_tbl` (
 -- Dumping data for table `student_tbl`
 --
 
-INSERT INTO `student_tbl` (`stud_id`, `name`, `program_id`, `allowance`) VALUES
-(0, 'Luis Adam Dela Cruz', 3, 500.00),
-(1, 'Bianca Santos', 3, 500.00),
-(2, 'Cedric Umali', 2, 600.00),
-(3, 'Anna Garcia', 1, 700.00),
-(4, 'John Cruz', 4, 800.00),
-(5, 'Maria Lopez', 5, 900.00),
-(6, 'Luis Reyes', 1, 510.50),
-(7, 'Ella Mendoza', 3, 620.00),
-(8, 'Carlos Diaz', 2, 730.25),
-(9, 'Nina Patel', 4, 840.75),
-(10, 'Mark Villanueva', 5, 950.10),
-(11, 'Sophia Thomas', 1, 560.00),
-(12, 'James Lim', 2, 670.20),
-(13, 'Olivia Cruz', 3, 780.55),
-(14, 'Ethan Ramirez', 4, 890.80),
-(15, 'Mia Santos', 5, 910.00),
-(16, 'Jacob Lee', 1, 520.00),
-(17, 'Grace Kim', 3, 635.75),
-(18, 'Benjamin Flores', 2, 755.25),
-(19, 'Chloe Gonzales', 4, 865.50),
-(20, 'Daniel Murphy', 5, 975.00),
-(21, 'Isabella Rivera', 1, 585.00),
-(22, 'Alexander Cruz', 2, 695.75),
-(23, 'Emma Morales', 3, 805.10),
-(24, 'Michael Scott', 4, 920.90),
-(25, 'Ava Bennett', 5, 985.50),
-(41, 'Retchelle Carpio', 1, 500.00),
-(42, 'Kobe T. Deacosta', 3, 900.00),
-(43, 'Janeth Cajara', 3, 1000.00);
+INSERT INTO `student_tbl` (`stud_id`, `first_name`, `middle_name`, `last_name`, `program_id`, `allowance`) VALUES
+(0, 'Luis Adam Dela Cruz', NULL, NULL, 3, 500.00),
+(1, 'Bianca Santos', NULL, NULL, 3, 500.00),
+(2, 'Cedric Umali', NULL, NULL, 2, 600.00),
+(3, 'Anna Garcia', NULL, NULL, 1, 700.00),
+(4, 'John Cruz', NULL, NULL, 4, 800.00),
+(5, 'Maria Lopez', NULL, NULL, 5, 900.00),
+(6, 'Luis Reyes', NULL, NULL, 1, 510.50),
+(7, 'Ella Mendoza', NULL, NULL, 3, 620.00),
+(8, 'Carlos Diaz', NULL, NULL, 2, 730.25),
+(9, 'Nina Patel', NULL, NULL, 4, 840.75),
+(10, 'Mark Villanueva', NULL, NULL, 5, 950.10),
+(11, 'Sophia Thomas', NULL, NULL, 1, 560.00),
+(12, 'James Lim', NULL, NULL, 2, 670.20),
+(13, 'Olivia Cruz', NULL, NULL, 3, 780.55),
+(14, 'Ethan Ramirez', NULL, NULL, 4, 890.80),
+(15, 'Mia Santos', NULL, NULL, 5, 910.00),
+(16, 'Jacob Lee', NULL, NULL, 1, 520.00),
+(17, 'Grace Kim', NULL, NULL, 3, 635.75),
+(18, 'Benjamin Flores', NULL, NULL, 2, 755.25),
+(19, 'Chloe Gonzales', NULL, NULL, 4, 865.50),
+(20, 'Daniel Murphy', NULL, NULL, 5, 975.00),
+(21, 'Isabella Rivera', NULL, NULL, 1, 585.00),
+(22, 'Alexander Cruz', NULL, NULL, 2, 695.75),
+(23, 'Emma Morales', NULL, NULL, 3, 805.10),
+(24, 'Michael Scott', NULL, NULL, 4, 920.90),
+(25, 'Ava Bennett', NULL, NULL, 5, 985.50),
+(41, 'Retchelle Carpio', NULL, NULL, 1, 500.00),
+(43, 'Janeth Cajara', NULL, NULL, 3, 1000.00),
+(44, 'Kobe', 'Templanza', 'Deacosta', 1, 1000.00),
+(45, 'Retchelle', 'Piego', 'Carpio', 1, 100.00),
+(50, 'Luis', 'Adam Dumlao Dela', 'Cruz', 3, 500.00);
 
 -- --------------------------------------------------------
 
@@ -185,88 +190,6 @@ INSERT INTO `subject_tbl` (`subject_id`, `subject_name`, `sem_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `view_all_students`
--- (See below for the actual view)
---
-CREATE TABLE `view_all_students` (
-`name` varchar(100)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `view_students_above_average_allowance`
--- (See below for the actual view)
---
-CREATE TABLE `view_students_above_average_allowance` (
-`name` varchar(100)
-,`allowance` float(10,2)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `view_students_bsed_major_math`
--- (See below for the actual view)
---
-CREATE TABLE `view_students_bsed_major_math` (
-`name` varchar(100)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `view_students_bs_accountancy`
--- (See below for the actual view)
---
-CREATE TABLE `view_students_bs_accountancy` (
-`name` varchar(100)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `view_students_bs_civil_engineering`
--- (See below for the actual view)
---
-CREATE TABLE `view_students_bs_civil_engineering` (
-`name` varchar(100)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `view_students_bs_computer_science`
--- (See below for the actual view)
---
-CREATE TABLE `view_students_bs_computer_science` (
-`name` varchar(100)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `view_students_bs_information_systems`
--- (See below for the actual view)
---
-CREATE TABLE `view_students_bs_information_systems` (
-`name` varchar(100)
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `view_students_with_programs`
--- (See below for the actual view)
---
-CREATE TABLE `view_students_with_programs` (
-`name` varchar(100)
-,`program_name` varchar(100)
-);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `year_tbl`
 --
 
@@ -286,78 +209,6 @@ INSERT INTO `year_tbl` (`year_id`, `year_from`, `year_to`) VALUES
 (3, 2025, 2026),
 (4, 2026, 2027),
 (5, 2027, 2028);
-
--- --------------------------------------------------------
-
---
--- Structure for view `view_all_students`
---
-DROP TABLE IF EXISTS `view_all_students`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_all_students`  AS SELECT `student_tbl`.`name` AS `name` FROM `student_tbl` ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `view_students_above_average_allowance`
---
-DROP TABLE IF EXISTS `view_students_above_average_allowance`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_students_above_average_allowance`  AS SELECT `student_tbl`.`name` AS `name`, `student_tbl`.`allowance` AS `allowance` FROM `student_tbl` WHERE `student_tbl`.`allowance` > (select avg(`student_tbl`.`allowance`) from `student_tbl`) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `view_students_bsed_major_math`
---
-DROP TABLE IF EXISTS `view_students_bsed_major_math`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_students_bsed_major_math`  AS SELECT `student_tbl`.`name` AS `name` FROM `student_tbl` WHERE `student_tbl`.`program_id` = (select `program_tbl`.`program_id` from `program_tbl` where `program_tbl`.`program_name` = 'BSED Major in Math') ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `view_students_bs_accountancy`
---
-DROP TABLE IF EXISTS `view_students_bs_accountancy`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_students_bs_accountancy`  AS SELECT `student_tbl`.`name` AS `name` FROM `student_tbl` WHERE `student_tbl`.`program_id` = (select `program_tbl`.`program_id` from `program_tbl` where `program_tbl`.`program_name` = 'BS Accountancy') ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `view_students_bs_civil_engineering`
---
-DROP TABLE IF EXISTS `view_students_bs_civil_engineering`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_students_bs_civil_engineering`  AS SELECT `student_tbl`.`name` AS `name` FROM `student_tbl` WHERE `student_tbl`.`program_id` = (select `program_tbl`.`program_id` from `program_tbl` where `program_tbl`.`program_name` = 'BS Civil Engineering') ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `view_students_bs_computer_science`
---
-DROP TABLE IF EXISTS `view_students_bs_computer_science`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_students_bs_computer_science`  AS SELECT `student_tbl`.`name` AS `name` FROM `student_tbl` WHERE `student_tbl`.`program_id` = (select `program_tbl`.`program_id` from `program_tbl` where `program_tbl`.`program_name` = 'BS COmputer Science') ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `view_students_bs_information_systems`
---
-DROP TABLE IF EXISTS `view_students_bs_information_systems`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_students_bs_information_systems`  AS SELECT `student_tbl`.`name` AS `name` FROM `student_tbl` WHERE `student_tbl`.`program_id` = (select `program_tbl`.`program_id` from `program_tbl` where `program_tbl`.`program_name` = 'BS Information Systems') ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `view_students_with_programs`
---
-DROP TABLE IF EXISTS `view_students_with_programs`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_students_with_programs`  AS SELECT `s`.`name` AS `name`, `p`.`program_name` AS `program_name` FROM (`student_tbl` `s` join `program_tbl` `p` on(`s`.`program_id` = `p`.`program_id`)) ;
 
 --
 -- Indexes for dumped tables
@@ -410,6 +261,16 @@ ALTER TABLE `subject_tbl`
 --
 ALTER TABLE `year_tbl`
   ADD PRIMARY KEY (`year_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `student_load`
+--
+ALTER TABLE `student_load`
+  MODIFY `load_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
