@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Students Section ---
-    async function loadStudents() {
+async function loadStudents() {
         content.innerHTML = `<h2>Students</h2>
         <button id="btn-add-student">Add Student</button>
         <table>
@@ -115,13 +115,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const allowance = document.getElementById('student-allowance').value;
 
             if (!stud_id || !name || !program_id) {
-                showError('student-error', 'Student ID, name and program are required');
+                showError('student-error', 'Student ID, Name and Program are required');
                 return;
             }
 
+            const nameParts = name.split(' ');
+            const first_name = nameParts[0] || '';
+            const middle_name = nameParts.slice(1, -1).join(' ') || '';
+            const last_name = nameParts[nameParts.length - 1] || '';
+
             try {
                 let url = 'http://localhost/SMS/api/Students/addStudent.php';
-                let body = {stud_id, name, program_id, allowance};
+                let body = {stud_id, first_name, middle_name, last_name, program_id, allowance};
                 if (editData) {
                     url = 'http://localhost/SMS/api/Students/updateStudent.php';
                     body.old_stud_id = editData.stud_id;
@@ -145,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showError('student-error', 'Error submitting form');
             }
         };
+
     }
 
     async function editStudent(id) {
@@ -161,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             renderStudentForm(student);
-            // Scroll to the student form container after rendering the form
             const container = document.getElementById('student-form-container');
             if (container) {
                 container.scrollIntoView({ behavior: 'smooth' });
@@ -345,25 +350,21 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const data = await res.json();
             if (data.success) {
-                // Remove the row from the table
                 const tbody = document.getElementById('programs-tbody');
                 const deleteBtn = tbody.querySelector(`button[data-id="${id}"]`);
                 if (deleteBtn) {
                     const row = deleteBtn.closest('tr');
                     if (row) row.remove();
                 }
-                // Show success message
                 const container = document.getElementById('program-form-container');
                 container.innerHTML = `<div class="success-message">${data.message}</div>`;
                 setTimeout(() => { container.innerHTML = ''; }, 1500);
             } else {
-                // Show error message
                 const container = document.getElementById('program-form-container');
                 container.innerHTML = `<div class="error-message">${data.message}</div>`;
                 setTimeout(() => { container.innerHTML = ''; }, 1500);
             }
         } catch {
-            // Show error message
             const container = document.getElementById('program-form-container');
             container.innerHTML = `<div class="error-message">Error deleting program</div>`;
             setTimeout(() => { container.innerHTML = ''; }, 1500);
@@ -666,25 +667,21 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const data = await res.json();
             if (data.success) {
-                // Remove the row from the table
                 const tbody = document.getElementById('semesters-tbody');
                 const deleteBtn = tbody.querySelector(`button[data-id="${id}"]`);
                 if (deleteBtn) {
                     const row = deleteBtn.closest('tr');
                     if (row) row.remove();
                 }
-                // Show success message
                 const container = document.getElementById('semester-form-container');
                 container.innerHTML = `<div class="success-message">${data.message}</div>`;
                 setTimeout(() => { container.innerHTML = ''; }, 1500);
             } else {
-                // Show error message
                 const container = document.getElementById('semester-form-container');
                 container.innerHTML = `<div class="error-message">${data.message}</div>`;
                 setTimeout(() => { container.innerHTML = ''; }, 1500);
             }
         } catch {
-            // Show error message
             const container = document.getElementById('semester-form-container');
             container.innerHTML = `<div class="error-message">Error deleting semester</div>`;
             setTimeout(() => { container.innerHTML = ''; }, 1500);
@@ -795,7 +792,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 let body = {subject_id, subject_name, sem_id};
                 if (editData) {
                     url = 'http://localhost/SMS/api/Subjects/updateSubject.php';
-                    // For update, we need to send the current subject_id (which is the same as old_subject_id for edit)
                     body.subject_id = subject_id;
                 }
                 const res = await fetch(url, {
@@ -848,25 +844,21 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const data = await res.json();
             if (data.success) {
-                // Remove the row from the table
                 const tbody = document.getElementById('subjects-tbody');
                 const deleteBtn = tbody.querySelector(`button[data-id="${id}"]`);
                 if (deleteBtn) {
                     const row = deleteBtn.closest('tr');
                     if (row) row.remove();
                 }
-                // Show success message
                 const container = document.getElementById('subject-form-container');
                 container.innerHTML = `<div class="success-message">${data.message}</div>`;
                 setTimeout(() => { container.innerHTML = ''; }, 1500);
             } else {
-                // Show error message
                 const container = document.getElementById('subject-form-container');
                 container.innerHTML = `<div class="error-message">${data.message}</div>`;
                 setTimeout(() => { container.innerHTML = ''; }, 1500);
             }
         } catch {
-            // Show error message
             const container = document.getElementById('subject-form-container');
             container.innerHTML = `<div class="error-message">Error deleting subject</div>`;
             setTimeout(() => { container.innerHTML = ''; }, 1500);
@@ -1078,6 +1070,5 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById(errorElement).style.display = 'none';
     }
 
-    // Load default tab
     setActiveTab('students');
 });
