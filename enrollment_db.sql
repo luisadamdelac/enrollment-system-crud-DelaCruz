@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 15, 2025 at 04:55 PM
+-- Generation Time: Sep 17, 2025 at 03:21 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -107,10 +107,10 @@ CREATE TABLE `student_load` (
 
 INSERT INTO `student_load` (`load_id`, `stud_id`, `subject_id`) VALUES
 (1, 1, 1),
-(3, 2, 3),
-(7, 43, 3),
-(8, 18, 1),
-(10, 15, 1);
+(2, 2, 4),
+(3, 3, 2),
+(4, 4, 5),
+(5, 5, 4);
 
 -- --------------------------------------------------------
 
@@ -132,37 +132,16 @@ CREATE TABLE `student_tbl` (
 --
 
 INSERT INTO `student_tbl` (`stud_id`, `first_name`, `middle_name`, `last_name`, `program_id`, `allowance`) VALUES
-(0, 'Luis Adam Dela Cruz', NULL, NULL, 3, 500.00),
-(1, 'Bianca Santos', NULL, NULL, 3, 500.00),
-(2, 'Cedric Umali', NULL, NULL, 2, 600.00),
-(3, 'Anna Garcia', NULL, NULL, 1, 700.00),
-(4, 'John Cruz', NULL, NULL, 4, 800.00),
-(5, 'Maria Lopez', NULL, NULL, 5, 900.00),
-(6, 'Luis Reyes', NULL, NULL, 1, 510.50),
-(7, 'Ella Mendoza', NULL, NULL, 3, 620.00),
-(8, 'Carlos Diaz', NULL, NULL, 2, 730.25),
-(9, 'Nina Patel', NULL, NULL, 4, 840.75),
-(10, 'Mark Villanueva', NULL, NULL, 5, 950.10),
-(11, 'Sophia Thomas', NULL, NULL, 1, 560.00),
-(12, 'James Lim', NULL, NULL, 2, 670.20),
-(13, 'Olivia Cruz', NULL, NULL, 3, 780.55),
-(14, 'Ethan Ramirez', NULL, NULL, 4, 890.80),
-(15, 'Mia Santos', NULL, NULL, 5, 910.00),
-(16, 'Jacob Lee', NULL, NULL, 1, 520.00),
-(17, 'Grace Kim', NULL, NULL, 3, 635.75),
-(18, 'Benjamin Flores', NULL, NULL, 2, 755.25),
-(19, 'Chloe Gonzales', NULL, NULL, 4, 865.50),
-(20, 'Daniel Murphy', NULL, NULL, 5, 975.00),
-(21, 'Isabella Rivera', NULL, NULL, 1, 585.00),
-(22, 'Alexander Cruz', NULL, NULL, 2, 695.75),
-(23, 'Emma Morales', NULL, NULL, 3, 805.10),
-(24, 'Michael Scott', NULL, NULL, 4, 920.90),
-(25, 'Ava Bennett', NULL, NULL, 5, 985.50),
-(41, 'Retchelle Carpio', NULL, NULL, 1, 500.00),
-(43, 'Janeth Cajara', NULL, NULL, 3, 1000.00),
-(44, 'Kobe', 'Templanza', 'Deacosta', 1, 1000.00),
-(45, 'Retchelle', 'Piego', 'Carpio', 1, 100.00),
-(50, 'Luis', 'Adam Dumlao Dela', 'Cruz', 3, 500.00);
+(1, 'Janeth', 'Mahumas', 'Cajara', 3, 1000.00),
+(2, 'Reya', 'Echon', 'Espiritu', 3, 1500.00),
+(3, 'Janelle', 'Mendoza', 'Fajardo', 3, 1400.00),
+(4, 'Jerevin', 'Guiral', 'Rodelas', 3, 900.00),
+(5, 'Irish', 'Alda', 'Villanueva', 3, 700.00),
+(6, 'Luis Adam', 'Dumlao', 'Dela Cruz', 3, 1040.00),
+(7, 'Kassandra Crizel', 'M', 'Andal', 3, 600.00),
+(8, 'Dorothy  Joy', 'G', 'Bajeta', 3, 500.00),
+(9, 'Deifrich Andrew', 'G', 'Bautista', 3, 700.00),
+(10, 'Retchelle Anne', 'Piego', 'Carpio', 3, 2000.00);
 
 -- --------------------------------------------------------
 
@@ -270,7 +249,7 @@ ALTER TABLE `year_tbl`
 -- AUTO_INCREMENT for table `student_load`
 --
 ALTER TABLE `student_load`
-  MODIFY `load_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `load_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
