@@ -8,6 +8,27 @@ document.addEventListener('DOMContentLoaded', () => {
         enrollments: document.getElementById('tab-enrollments'),
     };
 
+    const formModal = document.getElementById('form-modal');
+    const formModalBody = document.getElementById('form-modal-body');
+    const formModalClose = document.getElementById('form-modal-close');
+
+    function showFormModal(htmlContent) {
+        formModalBody.innerHTML = htmlContent;
+        formModal.style.display = 'block';
+    }
+
+    function closeFormModal() {
+        formModal.style.display = 'none';
+        formModalBody.innerHTML = '';
+    }
+
+    formModalClose.onclick = closeFormModal;
+    window.onclick = function(event) {
+        if (event.target == formModal) {
+            closeFormModal();
+        }
+    };
+
     Object.keys(tabs).forEach(key => {
         tabs[key].onclick = () => setActiveTab(key);
     });
@@ -73,17 +94,16 @@ async function loadStudents() {
     }
 
     async function renderStudentForm(editData) {
-        const container = document.getElementById('student-form-container');
         let programsRes, programsData;
         try {
             programsRes = await fetch('http://localhost/SMS/api/Programs/getPrograms.php');
             programsData = await programsRes.json();
         } catch {
-            container.innerHTML = `<p class="error-message">Failed to load programs.</p>`;
+            showError('error-modal', 'Failed to load programs.');
             return;
         }
         if (!programsData.success) {
-            container.innerHTML = `<p class="error-message">Failed to load programs.</p>`;
+            showError('error-modal', 'Failed to load programs.');
             return;
         }
         let html = `
@@ -105,8 +125,8 @@ async function loadStudents() {
             <button type="submit">${editData ? 'Update' : 'Add'}</button>
             <button type="button" id="cancel-btn">Cancel</button>
         </form>`;
-        container.innerHTML = html;
-        document.getElementById('cancel-btn').onclick = () => { container.innerHTML = ''; };
+        showFormModal(html);
+        document.getElementById('cancel-btn').onclick = () => { closeFormModal(); };
         document.getElementById('student-form').onsubmit = async e => {
             e.preventDefault();
             const stud_id = document.getElementById('student-id').value;
@@ -140,7 +160,7 @@ async function loadStudents() {
                 if (data.success) {
                     showSuccess('student-success', data.message);
                     setTimeout(() => {
-                        container.innerHTML = '';
+                        closeFormModal();
                         loadStudents();
                     }, 1500);
                 } else {
@@ -167,10 +187,6 @@ async function loadStudents() {
                 return;
             }
             renderStudentForm(student);
-            const container = document.getElementById('student-form-container');
-            if (container) {
-                container.scrollIntoView({ behavior: 'smooth' });
-            }
         } catch {
             showError('student-error', 'Error loading student for edit');
         }
