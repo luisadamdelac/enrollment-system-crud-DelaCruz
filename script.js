@@ -52,8 +52,7 @@ async function loadStudents() {
         <table>
             <thead><tr><th>ID</th><th>Name</th><th>Program</th><th>Allowance</th><th>Actions</th></tr></thead>
             <tbody id="students-tbody"></tbody>
-        </table>
-        <div id="student-form-container"></div>`;
+        </table>`;
 
         document.getElementById('btn-add-student').onclick = () => renderStudentForm();
 
@@ -99,11 +98,11 @@ async function loadStudents() {
             programsRes = await fetch('http://localhost/SMS/api/Programs/getPrograms.php');
             programsData = await programsRes.json();
         } catch {
-            showError('error-modal', 'Failed to load programs.');
+            alert('Failed to load programs.');
             return;
         }
         if (!programsData.success) {
-            showError('error-modal', 'Failed to load programs.');
+            alert('Failed to load programs.');
             return;
         }
         let html = `
@@ -141,7 +140,7 @@ async function loadStudents() {
             const allowance = document.getElementById('student-allowance').value;
 
             if (!stud_id || !first_name || !last_name || !program_id) {
-                showError('student-error', 'Student ID, First Name, Last Name and Program are required');
+                alert('Student ID, First Name, Last Name and Program are required');
                 return;
             }
 
@@ -159,16 +158,16 @@ async function loadStudents() {
                 });
                 const data = await res.json();
                 if (data.success) {
-                    showSuccess('student-success', data.message);
+                    alert(data.message);
                     setTimeout(() => {
                         closeFormModal();
                         loadStudents();
                     }, 1500);
                 } else {
-                    showError('student-error', data.message);
+                    alert(data.message);
                 }
             } catch {
-                showError('student-error', 'Error submitting form');
+                alert('Error submitting form');
             }
         };
 
@@ -179,17 +178,17 @@ async function loadStudents() {
             const res = await fetch('http://localhost/SMS/api/Students/getStudents.php');
             const data = await res.json();
             if (!data.success) {
-                showError('student-error', 'Unable to fetch student for editing');
+                alert('Unable to fetch student for editing');
                 return;
             }
             const student = data.data.find(s => s.stud_id === id);
             if (!student) {
-                showError('student-error', 'Student not found');
+                alert('Student not found');
                 return;
             }
             renderStudentForm(student);
         } catch {
-            showError('student-error', 'Error loading student for edit');
+            alert('Error loading student for edit');
         }
     }
 
@@ -204,18 +203,12 @@ async function loadStudents() {
             const data = await res.json();
             if (data.success) {
                 await populateStudentsTable();
-                const container = document.getElementById('student-form-container');
-                container.innerHTML = `<div class="success-message">${data.message}</div>`;
-                setTimeout(() => { container.innerHTML = ''; }, 1500);
+                alert(data.message);
             } else {
-                const container = document.getElementById('student-form-container');
-                container.innerHTML = `<div class="error-message">${data.message || 'Cannot delete student with active enrollment'}</div>`;
-                setTimeout(() => { container.innerHTML = ''; }, 1500);
+                alert(data.message || 'Cannot delete student with active enrollment');
             }
         } catch {
-            const container = document.getElementById('student-form-container');
-            container.innerHTML = `<div class="error-message">Error deleting student</div>`;
-            setTimeout(() => { container.innerHTML = ''; }, 1500);
+            alert('Error deleting student');
         }
     }
 
@@ -226,8 +219,7 @@ async function loadStudents() {
         <table>
             <thead><tr><th>ID</th><th>Name</th><th>Institute</th><th>Actions</th></tr></thead>
             <tbody id="programs-tbody"></tbody>
-        </table>
-        <div id="program-form-container"></div>`;
+        </table>`;
 
     document.getElementById('btn-add-program').onclick = () => renderProgramForm();
 
@@ -267,17 +259,16 @@ async function loadStudents() {
     }
 
     async function renderProgramForm(editData) {
-        const container = document.getElementById('program-form-container');
         let institutesRes, institutesData;
         try {
             institutesRes = await fetch('http://localhost/SMS/api/getInstitutes.php');
             institutesData = await institutesRes.json();
         } catch {
-            container.innerHTML = `<p class="error-message">Failed to load institutes.</p>`;
+            alert('Failed to load institutes.');
             return;
         }
         if (!institutesData.success) {
-            container.innerHTML = `<p class="error-message">Failed to load institutes.</p>`;
+            alert('Failed to load institutes.');
             return;
         }
         let html = `
@@ -297,8 +288,8 @@ async function loadStudents() {
             <button type="submit">${editData ? 'Update' : 'Add'}</button>
             <button type="button" id="cancel-program-btn">Cancel</button>
         </form>`;
-        container.innerHTML = html;
-        document.getElementById('cancel-program-btn').onclick = () => { container.innerHTML = ''; };
+        showFormModal(html);
+        document.getElementById('cancel-program-btn').onclick = () => { closeFormModal(); };
         document.getElementById('program-form').onsubmit = async e => {
             e.preventDefault();
             const program_id = document.getElementById('program-id').value;
@@ -326,7 +317,7 @@ async function loadStudents() {
                 if (data.success) {
                     showSuccess('program-success', data.message);
                     setTimeout(() => {
-                        container.innerHTML = '';
+                        closeFormModal();
                         loadPrograms();
                     }, 1500);
                 } else {
@@ -373,18 +364,12 @@ async function loadStudents() {
                     const row = deleteBtn.closest('tr');
                     if (row) row.remove();
                 }
-                const container = document.getElementById('program-form-container');
-                container.innerHTML = `<div class="success-message">${data.message}</div>`;
-                setTimeout(() => { container.innerHTML = ''; }, 1500);
+                alert(data.message);
             } else {
-                const container = document.getElementById('program-form-container');
-                container.innerHTML = `<div class="error-message">${data.message}</div>`;
-                setTimeout(() => { container.innerHTML = ''; }, 1500);
+                alert(data.message);
             }
         } catch {
-            const container = document.getElementById('program-form-container');
-            container.innerHTML = `<div class="error-message">Error deleting program</div>`;
-            setTimeout(() => { container.innerHTML = ''; }, 1500);
+            alert('Error deleting program');
         }
     }
 
@@ -396,14 +381,12 @@ async function loadStudents() {
             <thead><tr><th>ID</th><th>Year From</th><th>Year To</th><th>Actions</th></tr></thead>
             <tbody id="years-tbody"></tbody>
         </table>
-        <div id="year-form-container"></div>
         <hr>
         <button id="btn-add-semester">Add Semester</button>
         <table>
             <thead><tr><th>ID</th><th>Name</th><th>Year</th><th>Actions</th></tr></thead>
             <tbody id="semesters-tbody"></tbody>
-        </table>
-        <div id="semester-form-container"></div>`;
+        </table>`;
 
         document.getElementById('btn-add-year').onclick = () => renderYearForm();
         document.getElementById('btn-add-semester').onclick = () => renderSemesterForm();
@@ -484,7 +467,6 @@ async function loadStudents() {
     }
 
     async function renderYearForm(editData) {
-        const container = document.getElementById('year-form-container');
         let html = `
         <form id="year-form">
             <h3>${editData ? 'Edit Year' : 'Add Year'}</h3>
@@ -499,8 +481,8 @@ async function loadStudents() {
             <button type="submit">${editData ? 'Update' : 'Add'}</button>
             <button type="button" id="cancel-year-btn">Cancel</button>
         </form>`;
-        container.innerHTML = html;
-        document.getElementById('cancel-year-btn').onclick = () => { container.innerHTML = ''; };
+        showFormModal(html);
+        document.getElementById('cancel-year-btn').onclick = () => { closeFormModal(); };
         document.getElementById('year-form').onsubmit = async e => {
             e.preventDefault();
             const year_id = document.getElementById('year-id').value;
@@ -533,7 +515,7 @@ async function loadStudents() {
                 if (data.success) {
                     showSuccess('year-success', data.message);
                     setTimeout(() => {
-                        container.innerHTML = '';
+                        closeFormModal();
                         loadYearsAndSemesters();
                     }, 1500);
                 } else {
@@ -584,17 +566,16 @@ async function loadStudents() {
     }
 
     async function renderSemesterForm(editData) {
-        const container = document.getElementById('semester-form-container');
         let yearsRes, yearsData;
         try {
             yearsRes = await fetch('http://localhost/SMS/api/Years&Semesters/getYears.php');
             yearsData = await yearsRes.json();
         } catch {
-            container.innerHTML = `<p class="error-message">Failed to load years.</p>`;
+            alert('Failed to load years.');
             return;
         }
         if (!yearsData.success) {
-            container.innerHTML = `<p class="error-message">Failed to load years.</p>`;
+            alert('Failed to load years.');
             return;
         }
         let html = `
@@ -614,8 +595,8 @@ async function loadStudents() {
             <button type="submit">${editData ? 'Update' : 'Add'}</button>
             <button type="button" id="cancel-semester-btn">Cancel</button>
         </form>`;
-        container.innerHTML = html;
-        document.getElementById('cancel-semester-btn').onclick = () => { container.innerHTML = ''; };
+        showFormModal(html);
+        document.getElementById('cancel-semester-btn').onclick = () => { closeFormModal(); };
         document.getElementById('semester-form').onsubmit = async e => {
             e.preventDefault();
             const sem_id = document.getElementById('semester-id').value;
@@ -643,7 +624,7 @@ async function loadStudents() {
                 if (data.success) {
                     showSuccess('semester-success', data.message);
                     setTimeout(() => {
-                        container.innerHTML = '';
+                        closeFormModal();
                         loadYearsAndSemesters();
                     }, 1500);
                 } else {
@@ -690,18 +671,12 @@ async function loadStudents() {
                     const row = deleteBtn.closest('tr');
                     if (row) row.remove();
                 }
-                const container = document.getElementById('semester-form-container');
-                container.innerHTML = `<div class="success-message">${data.message}</div>`;
-                setTimeout(() => { container.innerHTML = ''; }, 1500);
+                alert(data.message);
             } else {
-                const container = document.getElementById('semester-form-container');
-                container.innerHTML = `<div class="error-message">${data.message}</div>`;
-                setTimeout(() => { container.innerHTML = ''; }, 1500);
+                alert(data.message);
             }
         } catch {
-            const container = document.getElementById('semester-form-container');
-            container.innerHTML = `<div class="error-message">Error deleting semester</div>`;
-            setTimeout(() => { container.innerHTML = ''; }, 1500);
+            alert('Error deleting semester');
         }
     }
 
@@ -712,8 +687,7 @@ async function loadStudents() {
         <table>
             <thead><tr><th>ID</th><th>Name</th><th>Semester</th><th>Actions</th></tr></thead>
             <tbody id="subjects-tbody"></tbody>
-        </table>
-        <div id="subject-form-container"></div>`;
+        </table>`;
 
         document.getElementById('btn-add-subject').onclick = () => renderSubjectForm();
 
@@ -761,17 +735,16 @@ async function loadStudents() {
     }
 
     async function renderSubjectForm(editData) {
-        const container = document.getElementById('subject-form-container');
         let semestersRes, semestersData;
         try {
             semestersRes = await fetch('http://localhost/SMS/api/Years&Semesters/getSemesters.php');
             semestersData = await semestersRes.json();
         } catch {
-            container.innerHTML = `<p class="error-message">Failed to load semesters.</p>`;
+            alert('Failed to load semesters.');
             return;
         }
         if (!semestersData.success) {
-            container.innerHTML = `<p class="error-message">Failed to load semesters.</p>`;
+            alert('Failed to load semesters.');
             return;
         }
         let html = `
@@ -791,8 +764,8 @@ async function loadStudents() {
             <button type="submit">${editData ? 'Update' : 'Add'}</button>
             <button type="button" id="cancel-subject-btn">Cancel</button>
         </form>`;
-        container.innerHTML = html;
-        document.getElementById('cancel-subject-btn').onclick = () => { container.innerHTML = ''; };
+        showFormModal(html);
+        document.getElementById('cancel-subject-btn').onclick = () => { closeFormModal(); };
         document.getElementById('subject-form').onsubmit = async e => {
             e.preventDefault();
             const subject_id = document.getElementById('subject-id').value;
@@ -820,7 +793,7 @@ async function loadStudents() {
                 if (data.success) {
                     showSuccess('subject-success', data.message);
                     setTimeout(() => {
-                        container.innerHTML = '';
+                        closeFormModal();
                         loadSubjects();
                     }, 1500);
                 } else {
@@ -867,18 +840,12 @@ async function loadStudents() {
                     const row = deleteBtn.closest('tr');
                     if (row) row.remove();
                 }
-                const container = document.getElementById('subject-form-container');
-                container.innerHTML = `<div class="success-message">${data.message}</div>`;
-                setTimeout(() => { container.innerHTML = ''; }, 1500);
+                alert(data.message);
             } else {
-                const container = document.getElementById('subject-form-container');
-                container.innerHTML = `<div class="error-message">${data.message}</div>`;
-                setTimeout(() => { container.innerHTML = ''; }, 1500);
+                alert(data.message);
             }
         } catch {
-            const container = document.getElementById('subject-form-container');
-            container.innerHTML = `<div class="error-message">Error deleting subject</div>`;
-            setTimeout(() => { container.innerHTML = ''; }, 1500);
+            alert('Error deleting subject');
         }
     }
 
@@ -891,8 +858,7 @@ async function loadStudents() {
         <table>
             <thead><tr><th>ID</th><th>Student</th><th>Subject</th><th>Actions</th></tr></thead>
             <tbody id="enrollments-tbody"></tbody>
-        </table>
-        <div id="enrollment-form-container"></div>`;
+        </table>`;
 
         document.getElementById('btn-add-enrollment').onclick = () => renderEnrollmentForm();
 
@@ -928,7 +894,6 @@ async function loadStudents() {
     }
 
     async function renderEnrollmentForm(editData) {
-        const container = document.getElementById('enrollment-form-container');
         let studentsRes, studentsData, subjectsRes, subjectsData;
         try {
             studentsRes = await fetch('http://localhost/SMS/api/Students/getStudents.php');
@@ -936,12 +901,12 @@ async function loadStudents() {
             subjectsRes = await fetch('http://localhost/SMS/api/Subjects/getSubjects.php');
             subjectsData = await subjectsRes.json();
         } catch {
-            container.innerHTML = `<p class="error-message">Failed to load students or subjects.</p>`;
+            alert('Failed to load students or subjects.');
             return;
         }
 
         if (!studentsData.success || !subjectsData.success) {
-            container.innerHTML = `<p class="error-message">Failed to load students or subjects.</p>`;
+            alert('Failed to load students or subjects.');
             return;
         }
 
@@ -966,9 +931,9 @@ async function loadStudents() {
             <button type="button" id="cancel-enrollment-btn">Cancel</button>
         </form>
         `;
-        container.innerHTML = html;
+        showFormModal(html);
 
-        document.getElementById('cancel-enrollment-btn').onclick = () => { container.innerHTML = ''; };
+        document.getElementById('cancel-enrollment-btn').onclick = () => { closeFormModal(); };
         document.getElementById('enrollment-form').onsubmit = async e => {
             e.preventDefault();
 
@@ -1018,7 +983,7 @@ async function loadStudents() {
                 if (data.success) {
                     showSuccess('enrollment-success', data.message);
                     setTimeout(() => {
-                        container.innerHTML = '';
+                        closeFormModal();
                         loadEnrollments();
                     }, 1500);
                 } else {
