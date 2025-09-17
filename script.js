@@ -113,8 +113,12 @@ async function loadStudents() {
             <div id="student-success" class="success-message" style="display: none;"></div>
             <label>Student ID</label>
             <input type="number" id="student-id" value="${editData ? editData.stud_id : ''}" ${editData ? 'readonly' : 'required'} />
-            <label>Name</label>
-            <input type="text" id="student-name" value="${editData ? editData.name : ''}" required />
+            <label>First Name</label>
+            <input type="text" id="student-first-name" value="${editData ? editData.first_name : ''}" required />
+            <label>Middle Name</label>
+            <input type="text" id="student-middle-name" value="${editData ? editData.middle_name : ''}" />
+            <label>Last Name</label>
+            <input type="text" id="student-last-name" value="${editData ? editData.last_name : ''}" required />
             <label>Program</label>
             <select id="student-program" required>
                 <option value="">Select Program</option>
@@ -130,19 +134,16 @@ async function loadStudents() {
         document.getElementById('student-form').onsubmit = async e => {
             e.preventDefault();
             const stud_id = document.getElementById('student-id').value;
-            const name = document.getElementById('student-name').value.trim();
+            const first_name = document.getElementById('student-first-name').value.trim();
+            const middle_name = document.getElementById('student-middle-name').value.trim();
+            const last_name = document.getElementById('student-last-name').value.trim();
             const program_id = document.getElementById('student-program').value;
             const allowance = document.getElementById('student-allowance').value;
 
-            if (!stud_id || !name || !program_id) {
-                showError('student-error', 'Student ID, Name and Program are required');
+            if (!stud_id || !first_name || !last_name || !program_id) {
+                showError('student-error', 'Student ID, First Name, Last Name and Program are required');
                 return;
             }
-
-            const nameParts = name.split(' ');
-            const first_name = nameParts[0] || '';
-            const middle_name = nameParts.slice(1, -1).join(' ') || '';
-            const last_name = nameParts[nameParts.length - 1] || '';
 
             try {
                 let url = 'http://localhost/SMS/api/Students/addStudent.php';
